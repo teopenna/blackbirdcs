@@ -1,4 +1,5 @@
 ﻿using BlackbirdCs.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,14 +20,26 @@ namespace BlackbirdCs
         public string Leg1 { get; set; }
         public string Leg2 { get; set; }
 
-        public Parameters(string configFileName)
+        private Parameters()
         {
-            if (!File.Exists(configFileName))
+        }
+
+        public static Parameters CreateParametersFromJsonFile(string jsonFileName)
+        {
+            if (!File.Exists(jsonFileName))
             {
-                throw new FileNotFoundException("Configuration file not found!", configFileName);
+                throw new FileNotFoundException("Configuration file not found!", jsonFileName);
             }
 
+            var parameters = new Parameters();
 
+            using (JsonTextReader reader = new JsonTextReader(File.OpenText(jsonFileName)))
+            {
+                var serializer = new JsonSerializer();
+                parameters = serializer.Deserialize<Parameters>(reader);
+            }
+
+            return parameters;
         }
     }
 }

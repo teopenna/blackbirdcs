@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace BlackbirdCs
 {
@@ -6,7 +7,8 @@ namespace BlackbirdCs
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var fileName = Path.Combine(AppContext.BaseDirectory, "blackbird.json");
+            var parameters = Parameters.CreateParametersFromJsonFile(fileName);
         }
     }
 }

@@ -1,0 +1,9 @@
+﻿{
+  "DemoMode": false,
+  "SpreadEntry": 0.008,
+  "SpreadTarget": 0.005,
+  "MaxLength": 5184000,
+  "PriceDeltaLim": 0.1,
+  "TrailingLim": 0.0008,
+  "TrailingCount": 1
+}
