@@ -1,9 +1,66 @@
 ﻿{
   "DemoMode": false,
+  "Leg1": "BTC",
+  "Leg2": "USD",
+  "UseFullExposure": false,
+  "TestedExposure": 25,
+  "MaxExposure": 25000,
+  "MaxLength": 5184000,
+  "DebugMaxIteration": 3200000,
+  "Verbose": true,
+  "CACert": "curl-ca-bundle.crt",
+
+  "Interval": 3,
   "SpreadEntry": 0.008,
   "SpreadTarget": 0.005,
-  "MaxLength": 5184000,
-  "PriceDeltaLim": 0.1,
-  "TrailingLim": 0.0008,
-  "TrailingCount": 1
+  "PriceDeltaLimit": 0.1,
+  "TrailingSpreadLim": 0.0008,
+  "TrailingSpreadCount": 1,
+  "OrderBookFactor": 3,
+  "UseVolatility": false,
+  "VolatilityPeriod": 600,
+
+  "SendEmail": false,
+  "SenderAddress": "",
+  "SenderUsername": "",
+  "SenderPassword": "",
+  "SmtpServerAddress": "",
+  "ReceiverAddress": "",
+
+  "DBFile": "blackbird.db",
+
+  "Exchanges": [
+    {
+      "Name": "Bifinex",
+      "ClientId": "",
+      "SecretKey": "",
+      "ApiKey": "",
+      "Fees": 0.002,
+      "Enabled": true
+    },
+    {
+      "Name": "OkCoin",
+      "ClientId": "",
+      "SecretKey": "",
+      "ApiKey": "",
+      "Fees": 0.002,
+      "Enabled": true
+    },
+    {
+      "Name": "Bitstamp",
+      "ClientId": "",
+      "SecretKey": "",
+      "ApiKey": "",
+      "Fees": 0.0025,
+      "Enabled": true
+    },
+    {
+      "Name": "Gemini",
+      "ClientId": "",
+      "SecretKey": "",
+      "ApiKey": "",
+      "Fees": 0.0025,
+      "Enabled": true
+    }
+  ]
 }
