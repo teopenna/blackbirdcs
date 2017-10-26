@@ -35,7 +35,7 @@ namespace BlackbirdCs
         public string SmtpServerAddress { get; set; }
         public string ReceiverAddress { get; set; }
 
-        public List<Exchange> Exchanges { get; set; }
+        public List<ExchangeConfig> ExchangesConfig { get; set; }
         
         public decimal PriceDeltaLim { get; set; }
         public decimal TrailingLim { get; set; }

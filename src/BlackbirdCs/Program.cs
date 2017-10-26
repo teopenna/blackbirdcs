@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace BlackbirdCs
 {
     class Program
     {
         
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var fileName = Path.Combine(AppContext.BaseDirectory, "blackbird.json");
 

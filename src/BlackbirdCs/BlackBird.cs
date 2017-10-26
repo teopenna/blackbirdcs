@@ -1,22 +1,25 @@
 ﻿using BlackbirdCs.Entities;
+using BlackbirdCs.Interfaces;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BlackbirdCs
 {
     internal class BlackBird
     {
-        private List<Exchange> _enabledExchanges;
+        private List<ExchangeConfig> _enabledExchanges;
 
-        internal void Run(string configFIleName)
+        internal void Run(string configFileName)
         {
             Console.WriteLine("Blackbird Bitcoin Arbitrage");
             Console.WriteLine("DISCLAIMER: USE THE SOFTWARE AT YOUR OWN RISK");
 
             // Load Parameters
-            var parameters = Parameters.CreateParametersFromJsonFile(configFIleName);
+            var parameters = Parameters.CreateParametersFromJsonFile(configFileName);
 
             if (!parameters.DemoMode)
             {
@@ -44,13 +47,13 @@ namespace BlackbirdCs
                 return;
             }
 
-            _enabledExchanges = new List<Exchange>();
+            _enabledExchanges = new List<ExchangeConfig>();
 
-            foreach (var exchange in parameters.Exchanges)
+            foreach (var exchangeConfig in parameters.ExchangesConfig)
             {
-                if (exchange.Enabled && (!string.IsNullOrEmpty(exchange.ApiKey) || parameters.DemoMode))
+                if (exchangeConfig.Enabled && (!string.IsNullOrEmpty(exchangeConfig.ApiKey) || parameters.DemoMode))
                 {
-                    var newExchange = exchange.Clone();
+                    var exchangeType = Type.GetType(exchangeConfig.ExchangeType);
                 }
             }
         }
