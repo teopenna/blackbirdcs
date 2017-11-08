@@ -1,5 +1,5 @@
 ﻿{
-  "DemoMode": false,
+  "DemoMode": true,
   "Leg1": "BTC",
   "Leg2": "USD",
   "UseFullExposure": false,
@@ -29,7 +29,7 @@
 
   "DBFile": "blackbird.db",
 
-  "Exchanges": [
+  "ExchangesConfig": [
     {
       "Name": "Bifinex",
       "ClientId": "",
@@ -39,7 +39,7 @@
       "Enabled": true,
       "CanShort": true,
       "IsImplemented": true,
-      "ExchangeType": "BlackbirdCs.Exchanges.Bifinex"
+      "ExchangeType": "BlackbirdCs.Exchanges.Bitfinex"
     },
     {
       "Name": "OkCoin",
@@ -50,7 +50,7 @@
       "Enabled": true,
       "CanShort": true,
       "IsImplemented": true,
-      "ExchangeType": "BlackbirdCs.Exchanges.Bifinex"
+      "ExchangeType": "BlackbirdCs.Exchanges.Bitfinex"
     },
     {
       "Name": "Bitstamp",
@@ -61,7 +61,7 @@
       "Enabled": true,
       "CanShort": true,
       "IsImplemented": true,
-      "ExchangeType": "BlackbirdCs.Exchanges.Bistamp"
+      "ExchangeType": "BlackbirdCs.Exchanges.Bitstamp"
     },
     {
       "Name": "Gemini",
@@ -72,7 +72,7 @@
       "Enabled": true,
       "CanShort": true,
       "IsImplemented": true,
-      "ExchangeType": "BlackbirdCs.Exchanges.Bistamp"
+      "ExchangeType": "BlackbirdCs.Exchanges.Bitstamp"
     }
   ]
 }

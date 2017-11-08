@@ -1,19 +1,30 @@
 ﻿using BlackbirdCs.Entities;
-using BlackbirdCs.Interfaces;
-using Refit;
+using BlackbirdCs.Exchanges;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BlackbirdCs
 {
-    internal class BlackBird
+    public class BlackBird
     {
-        private List<ExchangeConfig> _enabledExchanges;
+        private List<IExchange> _enabledExchanges;
+        private CancellationTokenSource _quotesCancellationTokenSource;
+        private CancellationToken _quotesCancellationToken;
 
-        internal void Run(string configFileName)
+        public BlackBird()
+        {
+            _quotesCancellationTokenSource = new CancellationTokenSource();
+            _quotesCancellationToken = _quotesCancellationTokenSource.Token;
+        }
+
+        internal void CancelRun()
+        {
+            _quotesCancellationTokenSource.Cancel();
+        }
+
+        internal async Task Run(string configFileName)
         {
             Console.WriteLine("Blackbird Bitcoin Arbitrage");
             Console.WriteLine("DISCLAIMER: USE THE SOFTWARE AT YOUR OWN RISK");
@@ -47,15 +58,40 @@ namespace BlackbirdCs
                 return;
             }
 
-            _enabledExchanges = new List<ExchangeConfig>();
+            _enabledExchanges = new List<IExchange>();
 
             foreach (var exchangeConfig in parameters.ExchangesConfig)
             {
                 if (exchangeConfig.Enabled && (!string.IsNullOrEmpty(exchangeConfig.ApiKey) || parameters.DemoMode))
                 {
-                    var exchangeType = Type.GetType(exchangeConfig.ExchangeType);
+                    var exchangeType = Type.GetType(exchangeConfig.ExchangeType, true, true);
+
+                    _enabledExchanges.Add((IExchange)Activator.CreateInstance(exchangeType));
                 }
             }
+
+            await PeriodicTask<List<IExchange>>.Run(GetExchangeQuotes, _enabledExchanges, new TimeSpan(0, 0, 3), _quotesCancellationToken);
+        }
+
+        private async void GetExchangeQuotes(List<IExchange> exchanges)
+        {
+            List<Task<Ticker>> tasks = new List<Task<Ticker>>();
+
+            foreach (IExchange exchange in exchanges)
+            {
+                tasks.Add(Task<Ticker>.Run(() => GetQuote(exchange, "btcusd")));
+            }
+
+            await Task.WhenAll(tasks);
+
+            tasks.ForEach(t => Console.WriteLine($"{DateTime.Now.ToString("yyyyMMdd hh:mm:ss.fff")} - Last: {t.Result.Last}"));
+        }
+
+        private async Task<Ticker> GetQuote(IExchange exchange, string currencyPair)
+        {
+            var ticker = await exchange.GetQuote(currencyPair);
+
+            return ticker;
         }
     }
 }
